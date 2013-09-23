@@ -1,5 +1,7 @@
 #!/bin/bash
 
+echo Installing fstrimDemon...
+
 DIR=`dirname $0`
 
 cp -fv usr/sbin/fstrimDemon.sh /usr/sbin/fstrimDemon.sh
