@@ -31,7 +31,7 @@ start()
 {
   ebegin "Starting fstrimeDemon"
   checkconfig || return 1
-  echo Starting: `date` >> ${LOG}
+  echo `date`: Starting...  >> ${LOG}
   start-stop-daemon --start \
     --exec ${DEMON} \
     --pidfile ${PID} \
@@ -51,5 +51,5 @@ stop()
     --exec ${DEMON} \
     --pidfile ${PID}
   eend $retval
-  echo Stopped: `date` >> ${LOG}
+  echo `date`: Stopped  >> ${LOG}
 }
