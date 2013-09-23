@@ -1,10 +1,10 @@
 # /etc/conf.d/fstrimDemon: config file for /etc/init.d/fstrimDemon
 
-# Directory for which fstrim will be run 
+# Directory for which fstrim will be run
 TRIM_DIR="/"
 
 # Time to wait after demon start to perform first fstrim
-# e.g. "30m" - 30 minutes. See man sleep. 
+# e.g. "30m" - 30 minutes. See man sleep.
 SLEEP_AT_START="3h"
 
 # Time to sleep between next repetition of fstrim
@@ -29,4 +29,4 @@ PID="/var/run/fstrimDemon.pid"
 LOG="/var/log/fstrimeDemon.log"
 
 # The main demon script i.e. fstrim-sleep loop
-DEMON="/dobekopt/fstrimDemon/fstrimDemon.sh"
+DEMON="/usr/sbin/fstrimDemon.sh"
