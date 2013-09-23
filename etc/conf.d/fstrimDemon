@@ -11,6 +11,11 @@ SLEEP_AT_START="3h"
 # e.g. "5d" - 5 days. See man sleep.
 SLEEP_BEFORE_REPEAT="12h"
 
+# Divide sleep into sleep chunks (in seconds) in order to
+# prevent including computer suspend time into sleep time
+# and performing fstrim just after resume
+SLEEP_CHUNK=3000
+
 # integer [-20 .. 19 ] default 0
 # change the priority of the server -20 (high) to 19 (low)
 # see nice(1) for description
