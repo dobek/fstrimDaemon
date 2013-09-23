@@ -1,0 +1,135 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <title>fstrimDemon by dobek</title>
+    <link rel="stylesheet" href="stylesheets/styles.css">
+    <link rel="stylesheet" href="stylesheets/pygment_trac.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+    <script src="javascripts/respond.js"></script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <!--[if lt IE 8]>
+    <link rel="stylesheet" href="stylesheets/ie.css">
+    <![endif]-->
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+
+  </head>
+  <body>
+      <div id="header">
+        <nav>
+          <li class="fork"><a href="https://github.com/dobek/fstrimDemon">View On GitHub</a></li>
+          <li class="downloads"><a href="https://github.com/dobek/fstrimDemon/zipball/master">ZIP</a></li>
+          <li class="downloads"><a href="https://github.com/dobek/fstrimDemon/tarball/master">TAR</a></li>
+          <li class="title">DOWNLOADS</li>
+        </nav>
+      </div><!-- end header -->
+
+    <div class="wrapper">
+
+      <section>
+        <div id="title">
+          <h1>fstrimDemon</h1>
+          <p>Very lightweight demon executing fstrim to improve ssd drives performance</p>
+          <hr>
+          <span class="credits left">Project maintained by <a href="https://github.com/dobek">dobek</a></span>
+          <span class="credits right">Hosted on GitHub Pages &mdash; Theme by <a href="https://twitter.com/michigangraham">mattgraham</a></span>
+        </div>
+
+        <h1>
+<a name="fstrimdemon" class="anchor" href="#fstrimdemon"><span class="octicon octicon-link"></span></a>fstrimDemon</h1>
+
+<p>Very lightweight demon executing fstrim every few hours.</p>
+
+<h2>
+<a name="motivation" class="anchor" href="#motivation"><span class="octicon octicon-link"></span></a>MOTIVATION:</h2>
+
+<p>Usually fstrim is run from cron but cron can execute command only at particular time. If you turn off your computer you can miss it. This demon solves this problem running fstrim in the loop. It gives also very low priority to this task in order not to intrude your main activities.</p>
+
+<h2>
+<a name="installation" class="anchor" href="#installation"><span class="octicon octicon-link"></span></a>INSTALLATION</h2>
+
+<h3>
+<a name="run-as-root" class="anchor" href="#run-as-root"><span class="octicon octicon-link"></span></a>Run as root:</h3>
+
+<pre><code>./install.sh
+</code></pre>
+
+<h3>
+<a name="to-start-demon" class="anchor" href="#to-start-demon"><span class="octicon octicon-link"></span></a>To start demon:</h3>
+
+<pre><code>/etc/init.d/fstrimDemon start
+</code></pre>
+
+<h3>
+<a name="to-stop-demon" class="anchor" href="#to-stop-demon"><span class="octicon octicon-link"></span></a>To stop demon:</h3>
+
+<pre><code>/etc/init.d/fstrimDemon start
+</code></pre>
+
+<h3>
+<a name="to-uninstall-run-as-root" class="anchor" href="#to-uninstall-run-as-root"><span class="octicon octicon-link"></span></a>To uninstall run as root:</h3>
+
+<pre><code>./uninstall.sh
+</code></pre>
+
+<p>Files which are not removed during uninstallation:</p>
+
+<ul>
+<li><em>/etc/conf.d/fstrimDemon</em></li>
+<li><em>/var/log/fstrimDemon.log</em></li>
+</ul><h2>
+<a name="configuration" class="anchor" href="#configuration"><span class="octicon octicon-link"></span></a>CONFIGURATION</h2>
+
+<p>Default config file: <em>/etc/conf.d/fstrimDemon</em></p>
+
+<div class="highlight highlight-bash"><pre><span class="c"># Directory for which fstrim will be run</span>
+<span class="nv">TRIM_DIR</span><span class="o">=</span><span class="s2">"/"</span>
+
+<span class="c"># Time to wait after demon start to perform first fstrim</span>
+<span class="c"># e.g. "30m" - 30 minutes. See man sleep.</span>
+<span class="nv">SLEEP_AT_START</span><span class="o">=</span><span class="s2">"3h"</span>
+
+<span class="c"># Time to sleep between next repetition of fstrim</span>
+<span class="c"># e.g. "5d" - 5 days. See man sleep.</span>
+<span class="nv">SLEEP_BEFORE_REPEAT</span><span class="o">=</span><span class="s2">"12h"</span>
+
+<span class="c"># integer [-20 .. 19 ] default 0</span>
+<span class="c"># change the priority of the server -20 (high) to 19 (low)</span>
+<span class="c"># see nice(1) for description</span>
+<span class="nv">NICE</span><span class="o">=</span><span class="s2">"19"</span>
+
+<span class="c"># See start-stop-daemon(8) for possible settings</span>
+<span class="c"># Modifies the IO scheduling priority of the daemon.  Class</span>
+<span class="c"># can be 0 for none, 1 for real time, 2 for best effort and 3</span>
+<span class="c"># for idle.  Data can be from 0 to 7 inclusive.</span>
+<span class="nv">IONICE</span><span class="o">=</span><span class="s2">"3"</span>
+
+<span class="c"># Here Demon's process id will be stored</span>
+<span class="nv">PID</span><span class="o">=</span><span class="s2">"/var/run/fstrimDemon.pid"</span>
+
+<span class="c"># Here Demon logs</span>
+<span class="nv">LOG</span><span class="o">=</span><span class="s2">"/var/log/fstrimeDemon.log"</span>
+
+<span class="c"># The main demon script i.e. fstrim-sleep loop</span>
+<span class="nv">DEMON</span><span class="o">=</span><span class="s2">"/usr/sbin/fstrimDemon.sh"</span>
+</pre></div>
+
+<h2>
+<a name="log" class="anchor" href="#log"><span class="octicon octicon-link"></span></a>LOG</h2>
+
+<p>See <em>/var/log/fstrimDemon.log</em></p>
+
+<h2>
+<a name="project-home" class="anchor" href="#project-home"><span class="octicon octicon-link"></span></a>PROJECT HOME</h2>
+
+<p><a href="https://github.com/dobek/fstrimDemon">https://github.com/dobek/fstrimDemon</a></p>
+      </section>
+
+    </div>
+    <!--[if !IE]><script>fixScale(document);</script><![endif]-->
+    
+  </body>
+</html>
