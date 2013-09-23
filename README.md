@@ -3,36 +3,48 @@ fstrimDemon
 
 Very lightweight demon executing fstrim every few hours.
 
+
 MOTIVATION:
+-----------------------------------------
+
 Usually fstrim is run from cron but cron can execute command only at particular time. If you turn off your computer you can miss it. This demon solves this problem running fstrim in the loop. It gives also very low priority to this task in order not to intrude your main activities.
 
------------------------------------------
 
 INSTALLATION
-
-Run as root:
-# ./install.sh
-
-To start demon:
-# /etc/init.d/fstrimDemon start
-
-To stop demon:
-# /etc/init.d/fstrimDemon start
-
-To uninstall run as root:
-# ./uninstall.sh
-
-Files which are not removed during uninstallation:
- - /etc/conf.d/fstrimDemon
- - /var/log/fstrimDemon.log
-
-
 -----------------------------------------
 
+### Run as root:
+```
+./install.sh
+```
+
+### To start demon:
+```
+/etc/init.d/fstrimDemon start
+```
+
+### To stop demon:
+```
+/etc/init.d/fstrimDemon start
+```
+
+### To uninstall run as root:
+```
+./uninstall.sh
+```
+
+Files which are not removed during uninstallation:
+- _/etc/conf.d/fstrimDemon_
+- _/var/log/fstrimDemon.log_
+
+
 CONFIGURATION
+-----------------------------------------
 
-Default config file: /etc/conf.d/fstrimDemon
 
+Default config file: _/etc/conf.d/fstrimDemon_
+
+```bash
 # Directory for which fstrim will be run
 TRIM_DIR="/"
 
@@ -63,17 +75,15 @@ LOG="/var/log/fstrimeDemon.log"
 
 # The main demon script i.e. fstrim-sleep loop
 DEMON="/usr/sbin/fstrimDemon.sh"
-
-
------------------------------------------
+```
 
 LOG
-
-See /var/log/fstrimDemon.log
-
-
 -----------------------------------------
 
+See _/var/log/fstrimDemon.log_
+
+
 PROJECT HOME
+-----------------------------------------
 
 https://github.com/dobek/fstrimDemon
