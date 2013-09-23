@@ -12,7 +12,9 @@ if [ "$RES" != "0" ]; then
 fi
 chmod 755 /usr/sbin/fstrimDemon.sh
 
-cp -fv etc/conf.d/fstrimDemon /etc/conf.d/fstrimDemon
+if [ ! -e /etc/conf.d/fstrimDemon ]; then
+	cp -v etc/conf.d/fstrimDemon /etc/conf.d/fstrimDemon
+fi
 
 cp -fv etc/init.d/fstrimDemon /etc/init.d/fstrimDemon
 chmod 755 /etc/init.d/fstrimDemon
