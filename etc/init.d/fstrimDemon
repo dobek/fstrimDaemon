@@ -1,0 +1,55 @@
+#!/sbin/runscript
+
+checkconfig()
+{
+  if [ ! -f /etc/conf.d/fstrimDemon ] ; then
+    eerror "/etc/conf.d/fstrimDemon does not exists."
+    return 1
+  fi
+
+  if [ -z "${DEMON}" ] \
+  	|| [ -z "${PID}" ] \
+  	|| [ -z "${IONICE}" ] \
+  	|| [ -z "${NICE}" ] \
+  	|| [ -z "${LOG}" ] \
+  	|| [ -z "${TRIM_DIR}" ] \
+  	|| [ -z "${SLEEP_AT_START}" ] \
+  	|| [ -z "${SLEEP_BEFORE_REPEAT}" ] \
+  	|| [ -z "${SLEEP_BEFORE_REPEAT}" ]
+  then
+    eerror "You must set config options in /etc/conf.d/fstrimDemon first"
+    return 1
+  fi
+
+  if [ ! -f ${DEMON} ] ; then
+    eerror "Script ${DEMON} does not exists."
+    return 1
+  fi
+}
+
+start()
+{
+  ebegin "Starting fstrimeDemon"
+  checkconfig || return 1
+  echo Starting: `date` >> ${LOG}
+  start-stop-daemon --start \
+    --exec ${DEMON} \
+    --pidfile ${PID} \
+    --background \
+    --make-pidfile \
+    --ionice ${IONICE} \
+    --nice ${NICE} \
+    --stdout ${LOG} \
+    --stderr ${LOG}
+  eend $?
+}
+
+stop()
+{
+  ebegin "Stopping fstrimeDemon"
+  start-stop-daemon --stop \
+    --exec ${DEMON} \
+    --pidfile ${PID}
+  eend $retval
+  echo Stopped: `date` >> ${LOG}
+}
