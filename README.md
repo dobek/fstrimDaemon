@@ -50,11 +50,16 @@ TRIM_DIR="/"
 
 # Time to wait after demon start to perform first fstrim
 # e.g. "30m" - 30 minutes. See man sleep.
-SLEEP_AT_START="3h"
+SLEEP_AT_START="2h"
 
 # Time to sleep between next repetition of fstrim
 # e.g. "5d" - 5 days. See man sleep.
-SLEEP_BEFORE_REPEAT="12h"
+SLEEP_BEFORE_REPEAT="3h"
+
+# Maximum CPU Load when fstrim is allowed.
+# If current CPU Load is above demon sleeps for 5 min.
+# 1.0 means all cores are busy.
+MAX_CPU_LOAD="0.2"
 
 # integer [-20 .. 19 ] default 0
 # change the priority of the server -20 (high) to 19 (low)

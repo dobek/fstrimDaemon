@@ -2,6 +2,7 @@
 
 source /etc/conf.d/fstrimDemon
 
+
 SLEEP_CMD="sleep"
 # SLEEP_CMD="echo debug: SLEEP"
 
@@ -33,8 +34,32 @@ vigilanSleep()
 }
 
 
-##############################
+CORES=`grep 'model name' /proc/cpuinfo | wc -l`
+U_MAX_CPU_LOAD=`echo "0${CORES} * 0${MAX_CPU_LOAD}" | bc -l`
+#echo debug: U_MAX_CPU_LOAD=${U_MAX_CPU_LOAD}
 
+waitForLowCpuLoad()
+{
+	local CPU_LOAD=999999
+	while true ; do
+		local CPU_LOAD=`cut -f 1 -d" " /proc/loadavg`
+		local TMP=`cut -f 2 -d" " /proc/loadavg`
+		local DIFF=`echo "${CPU_LOAD} < ${TMP}" | bc -l`
+		if [ `echo "${CPU_LOAD} < ${TMP}" | bc -l` = 1 ] ; then
+			local CPU_LOAD=${TMP}
+		fi
+		local TMP=`cut -f 3 -d" " /proc/loadavg`
+		if [ `echo "${CPU_LOAD} < ${TMP}" | bc -l` = 1  ] ; then
+			local CPU_LOAD=${TMP}
+		fi
+
+		[ `echo "${CPU_LOAD} < ${U_MAX_CPU_LOAD}" | bc -l` = 1 ] && break
+		sleep 5m
+	done
+}
+
+
+##############################
 
 echo `date`: FSTRIM DEMON STARTED
 echo ----------------------------
