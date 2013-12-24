@@ -1,0 +1,9 @@
+[Unit]
+Description=Regularly execute SSD trim command 
+After=syslog.target
+
+[Service]
+ExecStart=/usr/sbin/fstrimDemon.sh
+
+[Install]
+WantedBy=multi-user.target
