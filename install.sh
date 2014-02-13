@@ -19,6 +19,9 @@ fi
 cp -fv etc/init.d/fstrimDemon /etc/init.d/fstrimDemon
 chmod 755 /etc/init.d/fstrimDemon
 
+cp -fv usr/lib/systemd/system/fstrimDemon.service /usr/lib/systemd/system/fstrimDemon.service
+chmod 755 /usr/lib/systemd/system/fstrimDemon.service
+
 echo
 echo Find more information in README.md
 echo

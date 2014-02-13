@@ -11,6 +11,13 @@ fi
 
 rm -fv /etc/init.d/fstrimDemon
 
+if [ -e /usr/bin/systemctl ]; then
+	/usr/bin/systemctl stop fstrimDemon
+	/usr/bin/systemctl disable fstrimDemon
+fi
+
+rm -fv /usr/lib/systemd/system/fstrimDemon.service
+
 echo
 echo You can manually remove:
 echo - /etc/conf.d/fstrimDemon

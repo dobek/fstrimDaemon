@@ -18,20 +18,30 @@ INSTALLATION
 ./install.sh
 ```
 
-### To start demon:
+### To start demon if you are using init.d:
 ```
 /etc/init.d/fstrimDemon start
 ```
 
-### To stop demon:
+### To start demon if you are using systemd:
 ```
-/etc/init.d/fstrimDemon start
+systemctl start fstrimDemon
+
+### To start demon automatically at each boot if you are using systemd:
+```
+systemctl enable fstrimDemon
+```
+
+### To stop demon if you are using init.d:
+```
+/etc/init.d/fstrimDemon stop
 ```
 
 ### To uninstall run as root:
 ```
 ./uninstall.sh
 ```
+If you are using systemd, uninstall.sh will stop and disable the demon
 
 Files which are not removed during uninstallation:
 - _/etc/conf.d/fstrimDemon_
