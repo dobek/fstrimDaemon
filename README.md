@@ -55,8 +55,8 @@ CONFIGURATION
 Default config file: _/etc/conf.d/fstrimDemon_
 
 ```bash
-# Directory for which fstrim will be run
-TRIM_DIR="/"
+# Directories for which fstrim will be run
+TRIM_DIRS="/ /boot"
 
 # Time to wait after demon start to perform first fstrim
 # e.g. "30m" - 30 minutes. See man sleep.

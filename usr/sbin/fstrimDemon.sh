@@ -12,7 +12,9 @@ vigilanSleep()
 {
 	local VAL=${1%?}
 
-	if   [[ "$1" == *m ]] ; then
+	if   [[ "$1" == *s ]] ; then
+		local MULTIPLEXER=1
+	elif [[ "$1" == *m ]] ; then
 		local MULTIPLEXER=60
 	elif [[ "$1" == *h ]] ; then
 		local MULTIPLEXER=60*60
@@ -36,7 +38,7 @@ vigilanSleep()
 
 CORES=`grep 'model name' /proc/cpuinfo | wc -l`
 U_MAX_CPU_LOAD=`echo "0${CORES} * 0${MAX_CPU_LOAD}" | bc -l`
-#echo debug: U_MAX_CPU_LOAD=${U_MAX_CPU_LOAD}
+echo debug: U_MAX_CPU_LOAD=${U_MAX_CPU_LOAD}
 
 waitForLowCpuLoad()
 {
@@ -53,7 +55,9 @@ waitForLowCpuLoad()
 			local CPU_LOAD=${TMP}
 		fi
 
-		[ `echo "${CPU_LOAD} < ${U_MAX_CPU_LOAD}" | bc -l` = 1 ] && break
+		[ `echo "${CPU_LOAD} < ${U_MAX_CPU_LOAD}" | bc -l` = 1 ] \
+			&& echo "debug: CPU_LOAD=${CPU_LOAD}" \
+			&& break
 		sleep 5m
 	done
 }
@@ -66,9 +70,11 @@ echo ----------------------------
 vigilanSleep ${SLEEP_AT_START}
 
 while true ; do
-	echo `date`: RUN FSTRIM FOR ${TRIM_DIR}
+	echo `date`: RUN FSTRIM FOR ${TRIM_DIRS}
 	waitForLowCpuLoad
-	time fstrim -v ${TRIM_DIR}
+	for DIR in ${TRIM_DIRS}; do
+		time fstrim -v ${DIR}
+	done
 	echo ----------------------------
 	vigilanSleep ${SLEEP_BEFORE_REPEAT}
 done

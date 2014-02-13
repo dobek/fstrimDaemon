@@ -1,7 +1,7 @@
 # /etc/conf.d/fstrimDemon: config file for /etc/init.d/fstrimDemon
 
-# Directory for which fstrim will be run
-TRIM_DIR="/"
+# Directories for which fstrim will be run
+TRIM_DIRS="/ /boot"
 
 # Time to wait after demon start to perform first fstrim
 # e.g. "30m" - 30 minutes. See man sleep.
@@ -14,7 +14,7 @@ SLEEP_BEFORE_REPEAT="3h"
 # Maximum CPU Load when fstrim is allowed.
 # If current CPU Load is above demon sleeps for 5 min.
 # 1.0 means all cores are busy.
-MAX_CPU_LOAD="0.2"
+MAX_CPU_LOAD="0.3"
 
 # Divide sleep into sleep chunks (in seconds) in order to
 # prevent including computer suspend time into sleep time
