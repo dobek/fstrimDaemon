@@ -1,13 +1,13 @@
-fstrimDemon
+fstrimDaemon
 ===========
 
-Very lightweight demon executing fstrim every few hours.
+Very lightweight daemon executing fstrim every few hours.
 
 
 MOTIVATION:
 -----------------------------------------
 
-Usually fstrim is run from cron but cron can execute command only at particular time. If you turn off your computer you can miss it. This demon solves this problem running fstrim in the loop. It gives also very low priority to this task in order not to intrude your main activities.
+Usually fstrim is run from cron but cron can execute command only at particular time. If you turn off your computer you can miss it. This daemon solves this problem running fstrim in the loop. It gives also very low priority to this task in order not to intrude your main activities.
 
 
 INSTALLATION
@@ -18,47 +18,47 @@ INSTALLATION
 ./install.sh
 ```
 
-### To start demon if you are using init.d:
+### To start daemon if you are using init.d:
 ```
-/etc/init.d/fstrimDemon start
-```
-
-### To start demon if you are using systemd:
-```
-systemctl start fstrimDemon
-
-### To start demon automatically at each boot if you are using systemd:
-```
-systemctl enable fstrimDemon
+/etc/init.d/fstrimDaemon start
 ```
 
-### To stop demon if you are using init.d:
+### To start daemon if you are using systemd:
 ```
-/etc/init.d/fstrimDemon stop
+systemctl start fstrimDaemon
+
+### To start daemon automatically at each boot if you are using systemd:
+```
+systemctl enable fstrimDaemon
+```
+
+### To stop daemon if you are using init.d:
+```
+/etc/init.d/fstrimDaemon stop
 ```
 
 ### To uninstall run as root:
 ```
 ./uninstall.sh
 ```
-If you are using systemd, uninstall.sh will stop and disable the demon
+If you are using systemd, uninstall.sh will stop and disable the daemon
 
 Files which are not removed during uninstallation:
-- _/etc/conf.d/fstrimDemon_
-- _/var/log/fstrimDemon.log_
+- _/etc/conf.d/fstrimDaemon_
+- _/var/log/fstrimDaemon.log_
 
 
 CONFIGURATION
 -----------------------------------------
 
 
-Default config file: _/etc/conf.d/fstrimDemon_
+Default config file: _/etc/conf.d/fstrimDaemon_
 
 ```bash
 # Directories for which fstrim will be run
 TRIM_DIRS="/ /boot"
 
-# Time to wait after demon start to perform first fstrim
+# Time to wait after daemon start to perform first fstrim
 # e.g. "30m" - 30 minutes. See man sleep.
 SLEEP_AT_START="2h"
 
@@ -67,7 +67,7 @@ SLEEP_AT_START="2h"
 SLEEP_BEFORE_REPEAT="3h"
 
 # Maximum CPU Load when fstrim is allowed.
-# If current CPU Load is above demon sleeps for 5 min.
+# If current CPU Load is above daemon sleeps for 5 min.
 # 1.0 means all cores are busy.
 MAX_CPU_LOAD="0.2"
 
@@ -82,23 +82,23 @@ NICE="19"
 # for idle.  Data can be from 0 to 7 inclusive.
 IONICE="3"
 
-# Here Demon's process id will be stored
-PID="/var/run/fstrimDemon.pid"
+# Here Daemon's process id will be stored
+PID="/var/run/fstrimDaemon.pid"
 
-# Here Demon logs
-LOG="/var/log/fstrimeDemon.log"
+# Here Daemon logs
+LOG="/var/log/fstrimeDaemon.log"
 
-# The main demon script i.e. fstrim-sleep loop
-DEMON="/usr/sbin/fstrimDemon.sh"
+# The main daemon script i.e. fstrim-sleep loop
+DAEMON="/usr/sbin/fstrimDaemon.sh"
 ```
 
 LOG
 -----------------------------------------
 
-See _/var/log/fstrimDemon.log_
+See _/var/log/fstrimDaemon.log_
 
 
 PROJECT HOME
 -----------------------------------------
 
-https://github.com/dobek/fstrimDemon
+https://github.com/dobek/fstrimDaemon

@@ -1,26 +1,26 @@
 #!/bin/bash
 
-echo Installing fstrimDemon...
+echo Installing fstrimDaemon...
 
 DIR=`dirname $0`
 
-cp -fv usr/sbin/fstrimDemon.sh /usr/sbin/fstrimDemon.sh
+cp -fv usr/sbin/fstrimDaemon.sh /usr/sbin/fstrimDaemon.sh
 RES=$?
 if [ "$RES" != "0" ]; then
-	echo Must be root to install fstrimDemon
+	echo Must be root to install fstrimDaemon
 	exit $RES
 fi
-chmod 755 /usr/sbin/fstrimDemon.sh
+chmod 755 /usr/sbin/fstrimDaemon.sh
 
-if [ ! -e /etc/conf.d/fstrimDemon ]; then
-	cp -v etc/conf.d/fstrimDemon /etc/conf.d/fstrimDemon
+if [ ! -e /etc/conf.d/fstrimDaemon ]; then
+	cp -v etc/conf.d/fstrimDaemon /etc/conf.d/fstrimDaemon
 fi
 
-cp -fv etc/init.d/fstrimDemon /etc/init.d/fstrimDemon
-chmod 755 /etc/init.d/fstrimDemon
+cp -fv etc/init.d/fstrimDaemon /etc/init.d/fstrimDaemon
+chmod 755 /etc/init.d/fstrimDaemon
 
-cp -fv usr/lib/systemd/system/fstrimDemon.service /usr/lib/systemd/system/fstrimDemon.service
-chmod 755 /usr/lib/systemd/system/fstrimDemon.service
+cp -fv usr/lib/systemd/system/fstrimDaemon.service /usr/lib/systemd/system/fstrimDaemon.service
+chmod 755 /usr/lib/systemd/system/fstrimDaemon.service
 
 echo
 echo Find more information in README.md

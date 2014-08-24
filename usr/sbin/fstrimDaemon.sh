@@ -1,6 +1,6 @@
 #!/bin/bash
 
-source /etc/conf.d/fstrimDemon
+source /etc/conf.d/fstrimDaemon
 
 
 SLEEP_CMD="sleep"
@@ -65,7 +65,7 @@ waitForLowCpuLoad()
 
 ##############################
 
-echo `date`: FSTRIM DEMON STARTED
+echo `date`: FSTRIM DAEMON STARTED
 echo ----------------------------
 vigilanSleep ${SLEEP_AT_START}
 

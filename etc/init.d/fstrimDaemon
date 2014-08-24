@@ -2,12 +2,12 @@
 
 checkconfig()
 {
-  if [ ! -f /etc/conf.d/fstrimDemon ] ; then
-    eerror "/etc/conf.d/fstrimDemon does not exists."
+  if [ ! -f /etc/conf.d/fstrimDaemon ] ; then
+    eerror "/etc/conf.d/fstrimDaemon does not exists."
     return 1
   fi
 
-  if [ -z "${DEMON}" ] \
+  if [ -z "${DAEMON}" ] \
   	|| [ -z "${PID}" ] \
   	|| [ -z "${IONICE}" ] \
   	|| [ -z "${NICE}" ] \
@@ -17,23 +17,23 @@ checkconfig()
   	|| [ -z "${SLEEP_BEFORE_REPEAT}" ] \
   	|| [ -z "${SLEEP_BEFORE_REPEAT}" ]
   then
-    eerror "You must set config options in /etc/conf.d/fstrimDemon first"
+    eerror "You must set config options in /etc/conf.d/fstrimDaemon first"
     return 1
   fi
 
-  if [ ! -f ${DEMON} ] ; then
-    eerror "Script ${DEMON} does not exists."
+  if [ ! -f ${DAEMON} ] ; then
+    eerror "Script ${DAEMON} does not exists."
     return 1
   fi
 }
 
 start()
 {
-  ebegin "Starting fstrimeDemon"
+  ebegin "Starting fstrimeDaemon"
   checkconfig || return 1
   echo `date`: Starting...  >> ${LOG}
   start-stop-daemon --start \
-    --exec ${DEMON} \
+    --exec ${DAEMON} \
     --pidfile ${PID} \
     --background \
     --make-pidfile \
@@ -46,9 +46,9 @@ start()
 
 stop()
 {
-  ebegin "Stopping fstrimeDemon"
+  ebegin "Stopping fstrimeDaemon"
   start-stop-daemon --stop \
-    --exec ${DEMON} \
+    --exec ${DAEMON} \
     --pidfile ${PID}
   eend $retval
   echo `date`: Stopped  >> ${LOG}
