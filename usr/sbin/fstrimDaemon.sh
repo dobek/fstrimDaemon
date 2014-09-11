@@ -38,7 +38,7 @@ function vigilantSleep()
 
 CORES=`grep 'model name' /proc/cpuinfo | wc -l`
 U_MAX_CPU_LOAD=`echo "0${CORES} * 0${MAX_CPU_LOAD}" | bc -l`
-echo debug: U_MAX_CPU_LOAD=${U_MAX_CPU_LOAD}
+# echo debug: U_MAX_CPU_LOAD=${U_MAX_CPU_LOAD}
 
 function waitForLowCpuLoad()
 {
@@ -73,7 +73,13 @@ function doTRIM()
 }
 
 
-echo ============================
+if [ "$1" != "one_shot" ]; then
+	echo =============================
+	echo `date`: FSTRIM DAEMON STARTED
+	echo -----------------------------
+	vigilantSleep ${SLEEP_AT_START}
+fi
+
 echo "Searching for trimable directories"
 TRIM_DIRS=
 for mount_point in `mount | grep -E "type ext|type bfs|type msdos|type fat|type vfat" | cut -d" " -f3`
@@ -87,17 +93,12 @@ echo Trimable directories are: ${TRIM_DIRS}
 
 
 if [ "$1" == "one_shot" ]; then
-	echo `date`: FSTRIM one shot
-	doTRIM
+	echo "One shot done"
 	exit 0
 fi
 
 
-echo `date`: FSTRIM DAEMON STARTED
-echo ----------------------------
-
-vigilantSleep ${SLEEP_AT_START}
 while true ; do
-	doTRIM
 	vigilantSleep ${SLEEP_BEFORE_REPEAT}
+	doTRIM
 done
