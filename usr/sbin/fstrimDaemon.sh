@@ -8,7 +8,7 @@ SLEEP_CMD="sleep"
 
 # We divide sleep for smaller portions in order to protect
 # against being awaken when computer resume from suspension
-vigilanSleep()
+function vigilantSleep()
 {
 	local VAL=${1%?}
 
@@ -40,7 +40,7 @@ CORES=`grep 'model name' /proc/cpuinfo | wc -l`
 U_MAX_CPU_LOAD=`echo "0${CORES} * 0${MAX_CPU_LOAD}" | bc -l`
 echo debug: U_MAX_CPU_LOAD=${U_MAX_CPU_LOAD}
 
-waitForLowCpuLoad()
+function waitForLowCpuLoad()
 {
 	local CPU_LOAD=999999
 	while true ; do
@@ -62,14 +62,19 @@ waitForLowCpuLoad()
 	done
 }
 
+function doTRIM()
+{
+	echo `date`: RUN FSTRIM FOR ${TRIM_DIRS}
+	for DIR in ${TRIM_DIRS}; do
+		waitForLowCpuLoad
+		time fstrim -v ${DIR}
+	done
+	echo ----------------------------
+}
 
-##############################
 
-echo `date`: FSTRIM DAEMON STARTED
-echo ----------------------------
-vigilanSleep ${SLEEP_AT_START}
-
-echo Searching for trimable directories
+echo ============================
+echo "Searching for trimable directories"
 TRIM_DIRS=
 for mount_point in `mount | grep -E "type ext|type bfs|type msdos|type fat|type vfat" | cut -d" " -f3`
 do
@@ -80,12 +85,19 @@ do
 done
 echo Trimable directories are: ${TRIM_DIRS}
 
+
+if [ "$1" == "one_shot" ]; then
+	echo `date`: FSTRIM one shot
+	doTRIM
+	exit 0
+fi
+
+
+echo `date`: FSTRIM DAEMON STARTED
+echo ----------------------------
+
+vigilantSleep ${SLEEP_AT_START}
 while true ; do
-	echo `date`: RUN FSTRIM FOR ${TRIM_DIRS}
-	for DIR in ${TRIM_DIRS}; do
-		waitForLowCpuLoad
-		time fstrim -v ${DIR}
-	done
-	echo ----------------------------
-	vigilanSleep ${SLEEP_BEFORE_REPEAT}
+	doTRIM
+	vigilantSleep ${SLEEP_BEFORE_REPEAT}
 done
