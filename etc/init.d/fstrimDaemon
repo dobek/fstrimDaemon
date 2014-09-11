@@ -12,7 +12,6 @@ checkconfig()
   	|| [ -z "${IONICE}" ] \
   	|| [ -z "${NICE}" ] \
   	|| [ -z "${LOG}" ] \
-  	|| [ -z "${TRIM_DIRS}" ] \
   	|| [ -z "${SLEEP_AT_START}" ] \
   	|| [ -z "${SLEEP_BEFORE_REPEAT}" ] \
   	|| [ -z "${SLEEP_BEFORE_REPEAT}" ]

@@ -69,10 +69,21 @@ echo `date`: FSTRIM DAEMON STARTED
 echo ----------------------------
 vigilanSleep ${SLEEP_AT_START}
 
+echo Searching for trimable directories
+TRIM_DIRS=
+for mount_point in `mount | grep -E "type ext|type bfs|type msdos|type fat|type vfat" | cut -d" " -f3`
+do
+	fstrim ${mount_point} 2> /dev/null
+	if [ "$?" = "0" ] ; then
+		TRIM_DIRS="${TRIM_DIRS} ${mount_point}"
+	fi
+done
+echo Trimable directories are: ${TRIM_DIRS}
+
 while true ; do
 	echo `date`: RUN FSTRIM FOR ${TRIM_DIRS}
-	waitForLowCpuLoad
 	for DIR in ${TRIM_DIRS}; do
+		waitForLowCpuLoad
 		time fstrim -v ${DIR}
 	done
 	echo ----------------------------

@@ -1,8 +1,5 @@
 # /etc/conf.d/fstrimDaemon: config file for /etc/init.d/fstrimDaemon
 
-# Directories for which fstrim will be run
-TRIM_DIRS="/ /boot"
-
 # Time to wait after daemon start to perform first fstrim
 # e.g. "30m" - 30 minutes. See man sleep.
 SLEEP_AT_START="2h"
@@ -24,7 +21,7 @@ SLEEP_CHUNK=3000
 # integer [-20 .. 19 ] default 0
 # change the priority of the server -20 (high) to 19 (low)
 # see nice(1) for description
-NICE="19"
+NICE="17"
 
 # See start-stop-daemon(8) for possible settings
 # Modifies the IO scheduling priority of the daemon.  Class
