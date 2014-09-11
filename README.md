@@ -55,9 +55,6 @@ CONFIGURATION
 Default config file: _/etc/conf.d/fstrimDaemon_
 
 ```bash
-# Directories for which fstrim will be run
-TRIM_DIRS="/ /boot"
-
 # Time to wait after daemon start to perform first fstrim
 # e.g. "30m" - 30 minutes. See man sleep.
 SLEEP_AT_START="2h"
