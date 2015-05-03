@@ -64,10 +64,11 @@ function waitForLowCpuLoad()
 
 function doTRIM()
 {
+	NC="ionice -c3 nice -n 19"
 	echo `date`: RUN FSTRIM FOR ${TRIM_DIRS}
 	for DIR in ${TRIM_DIRS}; do
 		waitForLowCpuLoad
-		time fstrim -v ${DIR}
+		time $NC fstrim -v ${DIR}
 	done
 	echo ----------------------------
 }
